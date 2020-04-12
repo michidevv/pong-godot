@@ -15,9 +15,10 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Block Physics"
+config/name="pong"
 run/main_scene="res://scenes/World.tscn"
 config/icon="res://icon.png"
+boot_splash/name="pong"
 
 [display]
 

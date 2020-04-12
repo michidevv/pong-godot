@@ -5,8 +5,12 @@ export var speed = 260
 var velocity = Vector2()
 var is_outside = false
 
+onready var hitSound = $HitSound
+onready var scoreSound = $ScoreSound
+
 func _init():
-	velocity = Vector2(speed, 0).rotated(PI)
+	randomize()
+	set_velocity()
 
 func _physics_process(delta):
 	if Input.is_action_pressed("ui_select") and is_outside:
@@ -14,6 +18,7 @@ func _physics_process(delta):
 		
 	var collision = move_and_collide(velocity * delta)
 	if collision:
+		hitSound.play()
 		var c = collision.collider.to_local(collision.position)
 #		Or use:
 #		get_transform().xform_inv(collision.position)
@@ -29,9 +34,11 @@ func _physics_process(delta):
 func reset():
 	var screen_size = get_viewport_rect().size
 	position = screen_size / 2
-	randomize()
-	velocity = Vector2(speed, 0).rotated(-PI if randi() > 0.5 else PI)
 	is_outside = false
+	
+func set_velocity():
+	velocity = Vector2(speed, 0).rotated(-PI if rand_range(0, 1) > 0.5 else PI)
 
 func _on_VisibilityNotifier2D_viewport_exited(viewport):
+	scoreSound.play()
 	is_outside = true
