@@ -29,7 +29,8 @@ func _physics_process(delta):
 		if collision.collider.is_in_group("Player"):
 			# Up: -1, Down: 1
 			# Basically, c == 0 - -1, c == 1 - 1
-			velocity = velocity.rotated(c.y / 30 - 1)
+			var e = collision.collider.get_size()
+			velocity = velocity.rotated(c.y / e.y - 1)
 
 func reset():
 	var screen_size = get_viewport_rect().size
