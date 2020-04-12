@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 export var speed = 260
+
 var velocity = Vector2()
 var is_outside = false
 

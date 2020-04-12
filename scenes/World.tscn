@@ -1,10 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/Ball.gd" type="Script" id=1]
-[ext_resource path="res://scripts/Paddle.gd" type="Script" id=2]
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 2, 16 )
+[ext_resource path="res://scenes/Paddle.tscn" type="PackedScene" id=3]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 2, 2 )
@@ -13,33 +10,6 @@ extents = Vector2( 2, 2 )
 extents = Vector2( 160, 1 )
 
 [node name="World" type="Node2D"]
-
-[node name="LeftPaddle" type="KinematicBody2D" parent="." groups=[
-"Player",
-]]
-position = Vector2( 20, 74 )
-script = ExtResource( 2 )
-
-[node name="Polygon2D" type="Polygon2D" parent="LeftPaddle"]
-polygon = PoolVector2Array( 0, 0, 0, 32, 4, 32, 4, 0 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftPaddle"]
-position = Vector2( 2, 16 )
-shape = SubResource( 1 )
-
-[node name="RightPaddle" type="KinematicBody2D" parent="." groups=[
-"Player",
-]]
-position = Vector2( 298, 74 )
-script = ExtResource( 2 )
-player = 1
-
-[node name="Polygon2D" type="Polygon2D" parent="RightPaddle"]
-polygon = PoolVector2Array( 0, 0, 0, 32, 4, 32, 4, 0 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RightPaddle"]
-position = Vector2( 2, 16 )
-shape = SubResource( 1 )
 
 [node name="Ball" type="KinematicBody2D" parent="."]
 position = Vector2( 158, 74 )
@@ -64,4 +34,10 @@ shape = SubResource( 3 )
 [node name="CollisionShape2DBottom" type="CollisionShape2D" parent="Bounds"]
 position = Vector2( 160, 180 )
 shape = SubResource( 3 )
+
+[node name="RightPaddle2" parent="." instance=ExtResource( 3 )]
+player = 1
+
+[node name="LeftPaddle" parent="." instance=ExtResource( 3 )]
+position = Vector2( 20, 74 )
 [connection signal="viewport_exited" from="Ball/VisibilityNotifier2D" to="Ball" method="_on_VisibilityNotifier2D_viewport_exited"]
