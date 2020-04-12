@@ -1,12 +1,14 @@
 extends KinematicBody2D
 
+signal scored_point
+
 export var speed = 260
 
 var velocity = Vector2()
 var is_outside = false
 
-onready var hitSound = $HitSound
-onready var scoreSound = $ScoreSound
+onready var hit_sound = $HitSound
+onready var score_sound = $ScoreSound
 
 func _init():
 	randomize()
@@ -14,11 +16,12 @@ func _init():
 
 func _physics_process(delta):
 	if Input.is_action_pressed("ui_select") and is_outside:
-		reset()
+		is_outside = false
+		set_velocity()
 		
 	var collision = move_and_collide(velocity * delta)
 	if collision:
-		hitSound.play()
+		hit_sound.play()
 		var c = collision.collider.to_local(collision.position)
 #		Or use:
 #		get_transform().xform_inv(collision.position)
@@ -33,13 +36,15 @@ func _physics_process(delta):
 			velocity = velocity.rotated(c.y / e.y - 1)
 
 func reset():
+	velocity = Vector2()
 	var screen_size = get_viewport_rect().size
 	position = screen_size / 2
-	is_outside = false
 	
 func set_velocity():
-	velocity = Vector2(speed, 0).rotated(-PI if rand_range(0, 1) > 0.5 else PI)
+	velocity = Vector2(speed, 0).rotated(0 if rand_range(0, 1) > 0.5 else PI)
 
 func _on_VisibilityNotifier2D_viewport_exited(viewport):
-	scoreSound.play()
+	score_sound.play()
 	is_outside = true
+	emit_signal("scored_point", "1" if position.x > 0 else "2")
+	reset()
