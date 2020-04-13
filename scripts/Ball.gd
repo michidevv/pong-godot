@@ -5,18 +5,17 @@ signal scored_point
 export var speed = 260
 
 var velocity = Vector2()
-var is_outside = false
+var is_running = false
 
 onready var hit_sound = $HitSound
 onready var score_sound = $ScoreSound
 
 func _init():
 	randomize()
-	set_velocity()
 
 func _physics_process(delta):
-	if Input.is_action_pressed("ui_select") and is_outside:
-		is_outside = false
+	if Input.is_action_pressed("ui_select") and not is_running:
+		is_running = true
 		set_velocity()
 		
 	var collision = move_and_collide(velocity * delta)
@@ -45,6 +44,6 @@ func set_velocity():
 
 func _on_VisibilityNotifier2D_viewport_exited(viewport):
 	score_sound.play()
-	is_outside = true
+	is_running = false
 	emit_signal("scored_point", "1" if position.x > 0 else "2")
 	reset()
