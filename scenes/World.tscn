@@ -26,6 +26,7 @@ script = ExtResource( 7 )
 [node name="Ball" type="KinematicBody2D" parent="."]
 position = Vector2( 158, 88 )
 script = ExtResource( 1 )
+speed = 150
 
 [node name="Polygon2D" type="Polygon2D" parent="Ball"]
 polygon = PoolVector2Array( 0, 0, 0, 4, 4, 4, 4, 0 )
